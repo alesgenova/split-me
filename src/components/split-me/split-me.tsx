@@ -24,6 +24,7 @@ export class SplitMe {
   }
 
   @Prop() d: string;
+  @Prop() fixed: boolean = false;
   @Element() el: HTMLElement;
 
   @State() slotEnd: number[];
@@ -44,6 +45,9 @@ export class SplitMe {
     // Resize on desktop
     // Firefox wouldn't let us drag events directly for the resizing purpose,
     // use this workaround instead.
+    if (this.fixed === true) {
+      return;
+    }
     event.preventDefault();
     let mouseMoveListener = (e: MouseEvent) => {
       this.resize(e.clientX, e.clientY, i);
@@ -56,6 +60,9 @@ export class SplitMe {
 
   onTouchMove(event: TouchEvent, i: number) {
     // Resize on mobile
+    if (this.fixed === true) {
+      return;
+    }
     if (event.touches.length > 0) {
       // Avoid scrolling the page
       event.preventDefault();
