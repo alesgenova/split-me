@@ -7,7 +7,7 @@ import { Component, Prop, State, Watch, Element } from '@stencil/core';
 })
 export class SplitMe {
 
-  @Prop() n: number;
+  @Prop() n: number = 1;
   @Watch('n') watchN(curr, prev) {
     let scale: number = prev / curr;
     let newEnd = [];
@@ -25,6 +25,8 @@ export class SplitMe {
 
   @Prop() d: string;
   @Prop() fixed: boolean = false;
+  @Prop() sizes: string = "";
+
   @Element() el: HTMLElement;
 
   @State() slotEnd: number[];
@@ -35,10 +37,47 @@ export class SplitMe {
   topContainer: HTMLElement;
 
   componentWillLoad() {
-    this.slotEnd = [];
-    for (let i = 0; i < this.n; ++i) {
-      this.slotEnd.push((i + 1) / this.n);
+    this.slotEnd = this.calculateSlotEnd(this.n, this.parseSizes(this.sizes));
+  }
+
+  calculateSlotEnd(n: number, sizes: number[]): number[] {
+    let slotEnd: number[] = [];
+    if (sizes.length === n) {
+      let currFrac = 0;
+      for (let i = 0; i < n; ++i) {
+        currFrac += sizes[i];
+        slotEnd.push(Math.min(1, currFrac));
+      }
+    } else {
+      for (let i = 0; i < n; ++i) {
+        slotEnd.push((i + 1) / n);
+      }
     }
+    return slotEnd;
+  }
+
+  parseSizes(sizesStr: string) : number[] {
+    if (!sizesStr) {
+      return [];
+    }
+    let sizesStrArr: string[] = sizesStr.split(",");
+    if (sizesStrArr.length !== this.n) {
+      return [];
+    }
+    let sizes: number[] = [];
+    const percentRegex: RegExp = /^\s*\d+(\.\d*)?\%\s*$/;
+    const fracRegex: RegExp = /^\s*0(\.\d*)?\s*$/;
+    for (let i = 0; i < sizesStrArr.length; ++i) {
+      let str: string = sizesStrArr[i];
+      if (str.match(percentRegex)) {
+        sizes.push(parseFloat(str) / 100);
+      } else if (str.match(fracRegex)) {
+        sizes.push(parseFloat(str));
+      } else {
+        return [];
+      }
+    }
+    return sizes;
   }
 
   onDragStart(event: DragEvent, i: number) {

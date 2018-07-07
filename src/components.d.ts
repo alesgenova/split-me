@@ -33,6 +33,7 @@ declare global {
       'd': string;
       'fixed': boolean;
       'n': number;
+      'sizes': string;
     }
   }
 
@@ -58,6 +59,7 @@ declare global {
       'd'?: string;
       'fixed'?: boolean;
       'n'?: number;
+      'sizes'?: string;
     }
   }
 }
