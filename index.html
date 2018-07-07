@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Split Me Demo</title>
+  <script src="https://unpkg.com/split-me/dist/split-me.js"></script>
+</head>
+
+<body>
+  <div class="title-container">
+    <h2>SplitMe - Universal Splitter</h2>
+    <p>
+      <a href="https://github.com/alesgenova/split-me" target="_blank">GitHub</a>
+        - 
+      <a href="https://github.com/alesgenova/split-me/blob/master/demo.html" target="_blank">Demo Source</a>
+    </p>
+  </div>
+  
+  <div class="container">
+    <split-me id="splitter" n="3" sizes="0.25, 0.5, 0.25">
+      <div slot="0" class="fill red"></div>
+      <split-me slot="1" id="splitter" n="3" d="vertical">
+        <div slot="0" class="fill green"></div>
+        <split-me slot="1" id="splitter" n="3">
+          <div slot="0" class="fill teal"></div>
+          <div slot="1" class="fill orange"></div>
+          <div slot="2" class="fill dark-green"></div>
+        </split-me>
+        <div slot="2" class="fill light-green"></div>
+      </split-me>
+      <split-me slot="2" n="2" d="vertical">
+          <div slot="0" class="fill blue"></div>
+          <div slot="1" class="fill purple"></div>
+      </split-me>
+    </split-me>
+  </div>
+</body>
+
+<style>
+  html, body {
+    height: 98%;
+  }
+
+  .title-container {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(255,255,255,0.25);
+    text-align: center;
+    font-family: sans-serif;
+    color: darkslategray;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .fill {
+    height: 100%;
+    width: 100%;
+  }
+
+  .dark-green {
+    background-color: #009688;
+  }
+
+  .red {
+    background-color: #f44336;
+  }
+
+  .green {
+    background-color: #4CAF50;
+  }
+
+  .teal {
+    background-color: #00BCD4;
+  }
+
+  .orange {
+    background-color: #FF9800;
+  }
+
+  .blue {
+    background-color: #3F51B5;
+  }
+
+  .purple {
+    background-color: #9C27B0;
+  }
+
+  .light-green {
+    background-color: #CDDC39;
+  }
+</style>
+
+</html>
+
