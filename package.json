@@ -1,7 +1,7 @@
 {
   "name": "split-me",
-  "version": "0.0.1",
-  "description": "A universal splitter component",
+  "version": "0.0.2",
+  "description": "Universal web component to create arbitrary split layouts ",
   "module": "dist/esm/index.js",
   "main": "dist/index.js",
   "types": "dist/types/components.d.ts",
