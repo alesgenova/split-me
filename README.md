@@ -5,6 +5,8 @@
 
 `SplitMe` is a universal splitter built with [Stencil](http://stenciljs.com). It can be embedded in projects using any framework or even plain HTML.
 
+See a [Live Demo](https://alesgenova.github.io/split-me/).
+
 ## Basic Usage
 
 Add the `SplitMe` script tag to your `index.html`:
@@ -29,15 +31,20 @@ Use the `split-me` tag anywhere you like. Set the number of slots in the splitte
 ```
 
 ## Advanced Usage
-Change the splitter direction to vertical by setting the `d` attribute to `"vertical"`.
+### Attributes:
+- `n : number` Set the number of slots in the splitter 
+- `d : string` Set the direction to vertical by passing `"vertical"` to this attribute
+- `fixed : boolean` Prevent slots from being resized.
+- `sizes : string` Set the initial size of the slots by using a comma separated array with percentages or fractions. For example: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
+
 
 Splitters can be arbitrarily nested into each other to achieve any layout.
 
 ```html
-<split-me n="3">
+<split-me n="3" sizes="0.3, 0.3, 0.4">
   <div slot="0" class="fill" style="background-color: red;"></div>
   <div slot="1" class="fill" style="background-color: green;"></div>
-  <split-me slot="2" n="2" d="vertical">
+  <split-me slot="2" n="2" d="vertical" fixed="true">
       <div slot="0" class="fill" style="background-color: blue;"></div>
       <div slot="1" class="fill" style="background-color: magenta;"></div>
   </split-me>
@@ -46,6 +53,7 @@ Splitters can be arbitrarily nested into each other to achieve any layout.
 
 ## TODO
 
-- Specify initial sizes
+- ~~Prevent resizing~~
+- ~~Specify initial sizes~~
 - Specify minimum and maximum sizes
 - Customizable splitter style
