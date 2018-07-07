@@ -40,11 +40,22 @@ export class SplitMe {
     }
   }
 
-  onDrag(event: DragEvent, i: number) {
-    this.resize(event.clientX, event.clientY, i);
+  onDragStart(event: DragEvent, i: number) {
+    // Resize on desktop
+    // Firefox wouldn't let us drag events directly for the resizing purpose,
+    // use this workaround instead.
+    event.preventDefault();
+    let mouseMoveListener = (e: MouseEvent) => {
+      this.resize(e.clientX, e.clientY, i);
+    }
+    window.addEventListener("mousemove", mouseMoveListener);
+    window.addEventListener("mouseup", () => {
+      window.removeEventListener("mousemove", mouseMoveListener);
+    });
   }
 
   onTouchMove(event: TouchEvent, i: number) {
+    // Resize on mobile
     if (event.touches.length > 0) {
       // Avoid scrolling the page
       event.preventDefault();
@@ -53,9 +64,6 @@ export class SplitMe {
   }
 
   resize(x: number, y: number, i: number) {
-    if (x == 0 && y == 0) {
-      return;
-    }
     let min = i > 0 ? this.slotEnd[i - 1] : 0;
     let max = i < this.n - 1 ? this.slotEnd[i + 1] : 1;
     let frac: number;
@@ -124,7 +132,7 @@ export class SplitMe {
       phantomDividers.push(
         <div class={phantomClasses}
           draggable={true}
-          onDrag={(e) => {this.onDrag(e, i)}}
+          onDragStart={(e) => {this.onDragStart(e, i)}}
           onTouchMove={(e) => {this.onTouchMove(e, i)}}
           style={style}>
         </div>
