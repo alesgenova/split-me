@@ -30,7 +30,7 @@ declare global {
 
   namespace StencilComponents {
     interface SplitMe {
-      'd': string;
+      'd': 'horizontal' | 'vertical';
       'fixed': boolean;
       'n': number;
       'sizes': string;
@@ -56,7 +56,7 @@ declare global {
   }
   namespace JSXElements {
     export interface SplitMeAttributes extends HTMLAttributes {
-      'd'?: string;
+      'd'?: 'horizontal' | 'vertical';
       'fixed'?: boolean;
       'n'?: number;
       'sizes'?: string;

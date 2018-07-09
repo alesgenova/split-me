@@ -12,9 +12,9 @@ export class SplitMe {
     this.nChanged = true;
   }
 
-  @Prop() d: string;
+  @Prop() d: 'horizontal' | 'vertical';
   @Prop() fixed: boolean = false;
-  @Prop() sizes: string = "";
+  @Prop() sizes: string = '';
   @Watch('sizes') watchSizes() {
     this.sizesChanged = true;
   }
@@ -93,7 +93,7 @@ export class SplitMe {
     if (!sizesStr) {
       return [];
     }
-    let sizesStrArr: string[] = sizesStr.split(",");
+    let sizesStrArr: string[] = sizesStr.split(',');
     if (sizesStrArr.length !== this.n) {
       return [];
     }
@@ -115,15 +115,15 @@ export class SplitMe {
 
   onDragStart(event: DragEvent, i: number) {
     // Resize on desktop
-    // Firefox wouldn't let us drag events directly for the resizing purpose,
+    // Firefox wouldn't allow using drag events for resizing purposes,
     // use this workaround instead.
     event.preventDefault();
     let mouseMoveListener = (e: MouseEvent) => {
       this.resize(e.clientX, e.clientY, i);
     }
-    window.addEventListener("mousemove", mouseMoveListener);
-    window.addEventListener("mouseup", () => {
-      window.removeEventListener("mousemove", mouseMoveListener);
+    window.addEventListener('mousemove', mouseMoveListener);
+    window.addEventListener('mouseup', () => {
+      window.removeEventListener('mousemove', mouseMoveListener);
     });
   }
 
@@ -174,9 +174,9 @@ export class SplitMe {
       let size: number = this.getSlotSize(i);
       let style;
       if (this.d === 'vertical') {
-        style = {width: "100%", height: `${size * 100}%`};
+        style = {width: '100%', height: `${size * 100}%`};
       } else {
-        style = {width: `${size * 100}%`, height: "100%"};
+        style = {width: `${size * 100}%`, height: '100%'};
       }
       slotContainers.push(
         <div id={containerId} style={style}>
@@ -191,12 +191,12 @@ export class SplitMe {
       let phantomClasses: string;
       if (this.d === 'vertical') {
         style = {top: `${100 * this.slotEnd[i]}%`};
-        displayClasses = "divider-v display-divider-v";
-        phantomClasses = "divider-v phantom-divider-v";
+        displayClasses = 'divider-v display-divider-v';
+        phantomClasses = 'divider-v phantom-divider-v';
       } else {
         style = {left: `${100 * this.slotEnd[i]}%`};
-        displayClasses = "divider-h display-divider-h";
-        phantomClasses = "divider-h phantom-divider-h";
+        displayClasses = 'divider-h display-divider-h';
+        phantomClasses = 'divider-h phantom-divider-h';
       }
       slotDividers.push(
         <div class={displayClasses} style={style}>
@@ -217,11 +217,11 @@ export class SplitMe {
     return (
       <div class="top-container">
         <div class={this.d === 'vertical' ? 'slots-container-v' : 'slots-container-h'} >
-          <div class="dividers-container">
-            {slotDividers}
-            {phantomDividers}
-          </div>
           {slotContainers}
+        </div>
+        <div class="dividers-container">
+          {slotDividers}
+          {phantomDividers}
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 {
   "name": "split-me",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Universal web component to create arbitrary split layouts ",
   "module": "dist/esm/index.js",
   "main": "dist/index.js",
@@ -35,6 +35,14 @@
     "url": "https://github.com/alesgenova/split-me"
   },
   "homepage": "https://github.com/alesgenova/split-me",
+  "keywords": [
+    "splitter",
+    "split-layout",
+    "stenciljs",
+    "javascript",
+    "typescript",
+    "webcomponents"
+  ],
   "jest": {
     "transform": {
       "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/@stencil/core/testing/jest.preprocessor.js"
