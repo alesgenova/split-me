@@ -33,7 +33,7 @@ Use the `split-me` tag anywhere you like. Set the number of slots in the splitte
 ## Advanced Usage
 ### Attributes:
 - `n : number` Set the number of slots in the splitter 
-- `d : string` Set the direction to vertical by passing `"vertical"` to this attribute
+- `d : "horizontal" | "vertical"` Set the direction of the splitter
 - `fixed : boolean` Prevent slots from being resized.
 - `sizes : string` Set the initial size of the slots by using a comma separated array with percentages or fractions. For example: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
 
@@ -42,11 +42,11 @@ Splitters can be arbitrarily nested into each other to achieve any layout.
 
 ```html
 <split-me n="3" sizes="0.3, 0.3, 0.4">
-  <div slot="0" class="fill" style="background-color: red;"></div>
-  <div slot="1" class="fill" style="background-color: green;"></div>
-  <split-me slot="2" n="2" d="vertical" fixed="true">
-      <div slot="0" class="fill" style="background-color: blue;"></div>
-      <div slot="1" class="fill" style="background-color: magenta;"></div>
+  <div slot="0" class="fill red"></div>
+  <div slot="1" class="fill green"></div>
+  <split-me slot="2" n="2" d="vertical" fixed>
+      <div slot="0" class="fill blue"></div>
+      <div slot="1" class="fill magenta"></div>
   </split-me>
 </split-me>
 ```

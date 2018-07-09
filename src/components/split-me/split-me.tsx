@@ -117,9 +117,6 @@ export class SplitMe {
     // Resize on desktop
     // Firefox wouldn't let us drag events directly for the resizing purpose,
     // use this workaround instead.
-    if (this.fixed === true) {
-      return;
-    }
     event.preventDefault();
     let mouseMoveListener = (e: MouseEvent) => {
       this.resize(e.clientX, e.clientY, i);
@@ -132,9 +129,6 @@ export class SplitMe {
 
   onTouchMove(event: TouchEvent, i: number) {
     // Resize on mobile
-    if (this.fixed === true) {
-      return;
-    }
     event.preventDefault();
     if (event.touches.length > 0) {
       // Avoid scrolling the page
@@ -208,14 +202,16 @@ export class SplitMe {
         <div class={displayClasses} style={style}>
         </div>
       );
-      phantomDividers.push(
-        <div class={phantomClasses}
-          draggable={true}
-          onDragStart={(e) => {this.onDragStart(e, i)}}
-          onTouchMove={(e) => {this.onTouchMove(e, i)}}
-          style={style}>
-        </div>
-      );
+      if (!this.fixed) {
+        phantomDividers.push(
+          <div class={phantomClasses}
+            draggable={true}
+            onDragStart={(e) => {this.onDragStart(e, i)}}
+            onTouchMove={(e) => {this.onTouchMove(e, i)}}
+            style={style}>
+          </div>
+        );
+      }
     }
 
     return (

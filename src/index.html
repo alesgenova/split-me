@@ -28,7 +28,7 @@
   <div style="height: 5rem"></div> -->
 
   <!-- <div class="fill"> -->
-    <split-me id="splitter" n="3" sizes="0.2, 0.2, 0.6">
+    <split-me slot="0" id="splitter" n="3" fixed sizes="0.2, 0.2, 0.6">
       <div slot="0" class="fill" style="background-color: red;"></div>
       <div slot="1" class="fill" style="background-color: green;"></div>
       <div slot="2" class="fill" style="background-color: blue;"></div>
@@ -55,26 +55,11 @@
 <script>
   let splitter = document.getElementById("splitter");
   let i = 0;
+  let n = 0;
   let interval = setInterval(()=>{
-    
-    // splitter.n = i + 1;
-    let a = 1 - i / 3;
-    let b = (1 - a) / 2;
-    splitter.sizes = `${a.toFixed(2)}, ${b.toFixed(2)}, ${b.toFixed(2)}`;
-    if (i >= 2) {
+    if (i == 8) {
       clearInterval(interval);
     }
-    ++i;
-  //   if (i <= 4) {
-  //     n++;
-  //   } else {
-  //     n--;
-  //   }
-  //   splitter.n = n;
-  //   if (i == 8) {
-  //     clearInterval(interval);
-  //     splitter.n = 4;
-  //   }
   }, 2000);
 </script>
 </html>
