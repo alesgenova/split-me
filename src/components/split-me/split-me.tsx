@@ -8,51 +8,84 @@ import { Component, Prop, State, Watch, Element } from '@stencil/core';
 export class SplitMe {
 
   @Prop() n: number = 1;
-  @Watch('n') watchN(curr, prev) {
-    let scale: number = prev / curr;
-    let newEnd = [];
-    for (let i = 0; i < curr - 1; ++i) {
-      if (i < prev) {
-        newEnd.push(this.slotEnd[i] * scale);
-      } else {
-        newEnd.push((i + 1) / curr);
-      }
-    }
-    // The last slot should always expand to the end
-    newEnd.push(1);
-    this.slotEnd = newEnd;
+  @Watch('n') watchN() {
+    this.nChanged = true;
   }
 
   @Prop() d: string;
   @Prop() fixed: boolean = false;
   @Prop() sizes: string = "";
+  @Watch('sizes') watchSizes() {
+    this.sizesChanged = true;
+  }
 
   @Element() el: HTMLElement;
 
   @State() slotEnd: number[];
   
-  slotContainers: any[];
-  slotDividers: any[];
-  phantomDividers: any[];
-  topContainer: HTMLElement;
+  nChanged: boolean = false;
+  sizesChanged: boolean = false;
 
   componentWillLoad() {
-    this.slotEnd = this.calculateSlotEnd(this.n, this.parseSizes(this.sizes));
+    // Validate the sizes attribute
+    let sizes: number[] = this.parseSizes(this.sizes);
+    if (sizes.length === this.n) {
+      this.slotEnd = this.assignedSlotEnd(sizes);
+    } else {
+      this.slotEnd = this.defaultSlotEnd(this.n);
+    }
   }
 
-  calculateSlotEnd(n: number, sizes: number[]): number[] {
-    let slotEnd: number[] = [];
-    if (sizes.length === n) {
-      let currFrac = 0;
-      for (let i = 0; i < n; ++i) {
-        currFrac += sizes[i];
-        slotEnd.push(Math.min(1, currFrac));
+  componentWillUpdate() {
+    // Validate the new sizes attribute
+    let sizes: number[];
+    if (this.sizesChanged) {
+      sizes = this.parseSizes(this.sizes);
+      if (sizes.length !== this.n) {
+        this.sizesChanged = false;
       }
-    } else {
-      for (let i = 0; i < n; ++i) {
+    }
+
+    if (this.sizesChanged) {
+      this.slotEnd = this.assignedSlotEnd(sizes);
+    } else if (this.nChanged) {
+      this.slotEnd = this.rescaleSlotEnd(this.n, this.slotEnd);
+    }
+
+    this.nChanged = false;
+    this.sizesChanged = false;
+  }
+
+  defaultSlotEnd(n: number) : number[] {
+    let slotEnd: number[] = [];
+    for (let i = 0; i < n; ++i) {
+      slotEnd.push((i + 1) / n);
+    }
+    return slotEnd;
+  }
+
+  assignedSlotEnd(sizes: number[]) : number[] {
+    let slotEnd: number[] = [];
+    let currFrac = 0;
+    for (let i = 0; i < sizes.length; ++i) {
+      currFrac += sizes[i];
+      slotEnd.push(Math.min(1, currFrac));
+    }
+    return slotEnd;
+  }
+
+  rescaleSlotEnd(n: number, oldEnd: number[]): number[] {
+    let scale: number = oldEnd.length / n;
+    let slotEnd: number[] = [];
+    for (let i = 0; i < n - 1; ++i) {
+      if (i < oldEnd.length) {
+        slotEnd.push(oldEnd[i] * scale);
+      } else {
         slotEnd.push((i + 1) / n);
       }
     }
+    // The last slot should always expand to the end
+    slotEnd.push(1);
     return slotEnd;
   }
 
@@ -66,7 +99,7 @@ export class SplitMe {
     }
     let sizes: number[] = [];
     const percentRegex: RegExp = /^\s*\d+(\.\d*)?\%\s*$/;
-    const fracRegex: RegExp = /^\s*0(\.\d*)?\s*$/;
+    const fracRegex: RegExp = /^\s*\d(\.\d*)?\s*$/;
     for (let i = 0; i < sizesStrArr.length; ++i) {
       let str: string = sizesStrArr[i];
       if (str.match(percentRegex)) {
@@ -102,9 +135,9 @@ export class SplitMe {
     if (this.fixed === true) {
       return;
     }
+    event.preventDefault();
     if (event.touches.length > 0) {
       // Avoid scrolling the page
-      event.preventDefault();
       this.resize(event.touches[0].clientX, event.touches[0].clientY, i);
     }
   }

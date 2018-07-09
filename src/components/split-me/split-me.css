@@ -29,14 +29,14 @@
 .phantom-divider-h{
   background-color: transparent;
   cursor: col-resize;
-  width: 1rem;
+  width: 2rem;
   z-index: 2;
 }
 
 .phantom-divider-v{
   background-color: transparent;
   cursor: row-resize;
-  height: 1rem;
+  height: 2rem;
   z-index: 2;
 }
 
