@@ -17,12 +17,15 @@
     "test": "jest",
     "test.watch": "jest --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash-es": "^4.17.10"
+  },
   "devDependencies": {
     "@stencil/core": "^0.9.11",
     "@stencil/dev-server": "latest",
     "@stencil/utils": "latest",
     "@types/jest": "^23.1.0",
+    "@types/lodash-es": "^4.17.0",
     "jest": "^23.1.0"
   },
   "repository": {

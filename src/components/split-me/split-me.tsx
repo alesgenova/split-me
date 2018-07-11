@@ -1,4 +1,6 @@
-import { Component, Prop, State, Watch, Element } from '@stencil/core';
+import { Component, Prop, State, Watch, Element, Event, EventEmitter } from '@stencil/core';
+
+import { throttle } from 'lodash-es';
 
 @Component({
   tag: 'split-me',
@@ -15,6 +17,7 @@ export class SplitMe {
   @Prop() d: 'horizontal' | 'vertical';
   @Prop() fixed: boolean = false;
   @Prop() sizes: string = '';
+  @Prop() throttle: number = 0;
   @Watch('sizes') watchSizes() {
     this.sizesChanged = true;
   }
@@ -22,9 +25,13 @@ export class SplitMe {
   @Element() el: HTMLElement;
 
   @State() slotEnd: number[];
+
+  @Event() slotResized: EventEmitter;
   
   nChanged: boolean = false;
   sizesChanged: boolean = false;
+
+  throttledResize = throttle(this.resize.bind(this), this.throttle);
 
   componentWillLoad() {
     // Validate the sizes attribute
@@ -119,7 +126,7 @@ export class SplitMe {
     // use this workaround instead.
     event.preventDefault();
     let mouseMoveListener = (e: MouseEvent) => {
-      this.resize(e.clientX, e.clientY, i);
+      this.throttledResize(e.clientX, e.clientY, i);
     }
     window.addEventListener('mousemove', mouseMoveListener);
     window.addEventListener('mouseup', () => {
@@ -127,12 +134,12 @@ export class SplitMe {
     });
   }
 
-  onTouchMove(event: TouchEvent, i: number) {
+  onTouchMove = (event: TouchEvent, i: number) => {
     // Resize on mobile
     event.preventDefault();
     if (event.touches.length > 0) {
       // Avoid scrolling the page
-      this.resize(event.touches[0].clientX, event.touches[0].clientY, i);
+      this.throttledResize(event.touches[0].clientX, event.touches[0].clientY, i);
     }
   }
 
@@ -148,6 +155,7 @@ export class SplitMe {
     }
     if (frac > min && frac < max) {
       this.slotEnd = [...this.slotEnd.slice(0, i), frac, ...this.slotEnd.slice(i + 1) ];
+      this.slotResized.emit(i);
     }
   }
 
@@ -216,12 +224,12 @@ export class SplitMe {
 
     return (
       <div class="top-container">
-        <div class={this.d === 'vertical' ? 'slots-container-v' : 'slots-container-h'} >
-          {slotContainers}
-        </div>
         <div class="dividers-container">
           {slotDividers}
           {phantomDividers}
+        </div>
+        <div class={this.d === 'vertical' ? 'slots-container-v' : 'slots-container-h'} >
+          {slotContainers}
         </div>
       </div>
     );
