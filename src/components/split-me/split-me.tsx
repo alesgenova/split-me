@@ -9,24 +9,27 @@ import { throttle } from 'lodash-es';
 })
 export class SplitMe {
 
-  @Prop() n: number = 1;
-  @Watch('n') watchN() {
-    this.nChanged = true;
-  }
+  @Element() el: HTMLElement;
 
+  @Prop() n: number = 1;
   @Prop() d: 'horizontal' | 'vertical';
   @Prop() fixed: boolean = false;
   @Prop() sizes: string = '';
   @Prop() throttle: number = 0;
-  @Watch('sizes') watchSizes() {
-    this.sizesChanged = true;
-  }
-
-  @Element() el: HTMLElement;
 
   @State() slotEnd: number[];
 
   @Event() slotResized: EventEmitter;
+
+  @Watch('n')
+  watchN() {
+    this.nChanged = true;
+  }
+
+  @Watch('sizes')
+  watchSizes() {
+    this.sizesChanged = true;
+  }
   
   nChanged: boolean = false;
   sizesChanged: boolean = false;
