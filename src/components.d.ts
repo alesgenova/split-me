@@ -34,6 +34,7 @@ declare global {
       'fixed': boolean;
       'n': number;
       'sizes': string;
+      'throttle': number;
     }
   }
 
@@ -59,7 +60,9 @@ declare global {
       'd'?: 'horizontal' | 'vertical';
       'fixed'?: boolean;
       'n'?: number;
+      'onSlotResized'?: (event: CustomEvent) => void;
       'sizes'?: string;
+      'throttle'?: number;
     }
   }
 }
