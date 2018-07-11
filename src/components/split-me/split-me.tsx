@@ -1,6 +1,7 @@
 import { Component, Prop, State, Watch, Element, Event, EventEmitter } from '@stencil/core';
 
-import { throttle } from 'lodash-es';
+import { Cancelable } from 'lodash';
+import throttle from 'lodash.throttle';
 
 @Component({
   tag: 'split-me',
@@ -36,15 +37,21 @@ export class SplitMe {
   watchMinSizes() {
     this.minSizesChanged = true;
   }
+
+  @Watch('throttle')
+  watchThrottle(curr: number) {
+    this.throttledResize = throttle(this.resize.bind(this), curr);
+  }
+
+  throttledResize: Function & Cancelable;
   
   minSizesArr: number[];
   nChanged: boolean = false;
   sizesChanged: boolean = false;
   minSizesChanged: boolean = false;
 
-  throttledResize = throttle(this.resize.bind(this), this.throttle);
-
   componentWillLoad() {
+    this.throttledResize = throttle(this.resize.bind(this), this.throttle);
     // Validate the sizes attribute
     let sizes: number[] = this.parseSizes(this.sizes);
     if (sizes.length === this.n) {
