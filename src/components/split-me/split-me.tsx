@@ -15,6 +15,7 @@ export class SplitMe {
   @Prop() d: 'horizontal' | 'vertical';
   @Prop() fixed: boolean = false;
   @Prop() sizes: string = '';
+  @Prop() minSizes: string = '';
   @Prop() throttle: number = 0;
 
   @State() slotEnd: number[];
@@ -30,9 +31,16 @@ export class SplitMe {
   watchSizes() {
     this.sizesChanged = true;
   }
+
+  @Watch('minSizes')
+  watchMinSizes() {
+    this.minSizesChanged = true;
+  }
   
+  minSizesArr: number[];
   nChanged: boolean = false;
   sizesChanged: boolean = false;
+  minSizesChanged: boolean = false;
 
   throttledResize = throttle(this.resize.bind(this), this.throttle);
 
@@ -43,6 +51,13 @@ export class SplitMe {
       this.slotEnd = this.assignedSlotEnd(sizes);
     } else {
       this.slotEnd = this.defaultSlotEnd(this.n);
+    }
+    // Validate the minSize attribute
+    let minSizes: number[] = this.parseSizes(this.minSizes);
+    if (minSizes.length === this.n) {
+      this.minSizesArr = minSizes;
+    } else {
+      this.minSizesArr = this.defaultMinSizes(this.n);
     }
   }
 
@@ -62,8 +77,19 @@ export class SplitMe {
       this.slotEnd = this.rescaleSlotEnd(this.n, this.slotEnd);
     }
 
+
+    if (this.minSizesChanged) {
+      let minSizes: number[] = this.parseSizes(this.minSizes);
+      if (minSizes.length === this.n) {
+        this.minSizesArr = minSizes;
+      } else {
+        this.minSizesArr = this.defaultMinSizes(this.n);
+      }
+    }
+
     this.nChanged = false;
     this.sizesChanged = false;
+    this.minSizesChanged = false;
   }
 
   defaultSlotEnd(n: number) : number[] {
@@ -99,6 +125,14 @@ export class SplitMe {
     return slotEnd;
   }
 
+  defaultMinSizes(n: number) : number[] {
+    let minSizes: number[] = [];
+    for (let i = 0; i < n; ++i) {
+      minSizes.push(0);
+    }
+    return minSizes;
+  }
+
   parseSizes(sizesStr: string) : number[] {
     if (!sizesStr) {
       return [];
@@ -109,7 +143,7 @@ export class SplitMe {
     }
     let sizes: number[] = [];
     const percentRegex: RegExp = /^\s*\d+(\.\d*)?\%\s*$/;
-    const fracRegex: RegExp = /^\s*\d(\.\d*)?\s*$/;
+    const fracRegex: RegExp = /^\s*(0|1)(\.\d*)?\s*$/;
     for (let i = 0; i < sizesStrArr.length; ++i) {
       let str: string = sizesStrArr[i];
       if (str.match(percentRegex)) {
@@ -148,7 +182,9 @@ export class SplitMe {
 
   resize(x: number, y: number, i: number) {
     let min = i > 0 ? this.slotEnd[i - 1] : 0;
+    min += this.minSizesArr[i];
     let max = i < this.n - 1 ? this.slotEnd[i + 1] : 1;
+    max -= this.minSizesArr[i + 1];
     let frac: number;
     let rect = this.el.getBoundingClientRect();
     if (this.d === 'vertical') {

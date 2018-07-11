@@ -27,7 +27,7 @@
 
   <div style="height: 5rem"></div> -->
 
-    <split-me slot="0" id="splitter" n="3" sizes="0.2, 0.2, 0.6">
+    <split-me slot="0" id="splitter" n="3" sizes="0.3, 0.3, 0.4" min-sizes="0.2, 0.1, 0.3">
       <div slot="0" class="fill" style="background-color: red;"></div>
       <div slot="1" class="fill" style="background-color: green;"></div>
       <div slot="2" class="fill" style="background-color: blue;"></div>
@@ -52,7 +52,7 @@
 
 <script>
   let splitter = document.getElementById("splitter");
-  splitter.addEventListener('slotResized', (e)=>console.log(e.detail));
+  splitter.addEventListener('slotResized', (e) => {});
   let i = 0;
   let n = 0;
   let interval = setInterval(()=>{
