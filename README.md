@@ -18,8 +18,8 @@ Use the `split-me` tag anywhere you like. Set the number of slots in the splitte
 
 ```html
 <split-me n="2">
-  <div slot="0" class="fill" style="background-color: red;"></div>
-  <div slot="1" class="fill" style="background-color: green;"></div>
+  <div slot="0" class="fill red"></div>
+  <div slot="1" class="fill green"></div>
 </split-me>
 
 <style>
@@ -35,13 +35,17 @@ Use the `split-me` tag anywhere you like. Set the number of slots in the splitte
 - `n : number` Set the number of slots in the splitter 
 - `d : "horizontal" | "vertical"` Set the direction of the splitter
 - `fixed : boolean` Prevent slots from being resized.
-- `sizes : string` Set the initial size of the slots by using a comma separated array with percentages or fractions. For example: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
+- `sizes : string` Set the initial size of the slots by passing a comma separated array with percentages or fractions. For example: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
+- `minSizes : string` Set the minimum size of the slots by passing a comma separated array with percentages or fractions.
+- `throttle : number` Set the minimum time (in ms) that has to pass between resize events while dragging. Defaults to `0`
 
+### Events:
+- `slotResized` Fired every time a slot has been resized.
 
 Splitters can be arbitrarily nested into each other to achieve any layout.
 
 ```html
-<split-me n="3" sizes="0.3, 0.3, 0.4">
+<split-me n="3" sizes="0.3, 0.3, 0.4" min-sizes="0.2, 0.0, 0.0">
   <div slot="0" class="fill red"></div>
   <div slot="1" class="fill green"></div>
   <split-me slot="2" n="2" d="vertical" fixed>
@@ -55,5 +59,5 @@ Splitters can be arbitrarily nested into each other to achieve any layout.
 
 - ~~Prevent resizing~~
 - ~~Specify initial sizes~~
-- Specify minimum and maximum sizes
+- ~~Specify minimum and maximum sizes~~
 - Customizable splitter style
