@@ -1,3 +1,12 @@
+:host {
+  --divider-length: 100%;
+  --divider-thickness: 0.15rem;
+  --divider-color: #eeeeee;
+  --divider-shadow: 0 0 0.3rem black;
+  --divider-image-h: none;
+  --divider-image-v: none;
+}
+
 .divider-h{
   height: 100%;
   position: absolute;
@@ -13,16 +22,28 @@
 }
 
 .display-divider-h{
-  background-color: #efefef;
-  box-shadow: 0 0 0.3rem black;
-  width: 0.15rem;
+  width: var(--divider-thickness);
+  height: var(--divider-length);
+  box-shadow: var(--divider-shadow);
+  background-color: var(--divider-color);
+  background-image: var(--divider-image-h);
+  background-repeat: no-repeat;
+  background-position: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
 }
 
 .display-divider-v{
-  background-color: #efefef;
-  box-shadow: 0 0 0.3rem black;
-  height: 0.15rem;
+  height: var(--divider-thickness);
+  width: var(--divider-length);
+  box-shadow: var(--divider-shadow);
+  background-color: var(--divider-color);
+  background-image: var(--divider-image-v);
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
 }
 
