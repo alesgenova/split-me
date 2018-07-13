@@ -1,3 +1,4 @@
+/* Shadow DOM disabled until supported by Firefox
 :host {
   --divider-length: 100%;
   --divider-thickness: 0.15rem;
@@ -5,6 +6,20 @@
   --divider-shadow: 0 0 0.3rem black;
   --divider-image-h: none;
   --divider-image-v: none;
+  --divider-background-repeat: no-repeat;
+  --divider-background-position: center;
+}
+*/
+
+split-me {
+  --divider-length: 100%; /* Length of the divider along the principal axis */
+  --divider-thickness: 0.15rem; /* Thickness of the divider */
+  --divider-color: #eeeeee; /* Background color of the divider */
+  --divider-shadow: 0 0 0.3rem black; /* Shadow of the divider */
+  --divider-image-h: none; /* Background image of the divider when d="horizontal" */
+  --divider-image-v: none; /* Background image of the divider when d="vertical" */
+  --divider-background-repeat: no-repeat; /* Repeat rule of the background image */
+  --divider-background-position: center; /* Position of the background image */
 }
 
 .divider-h{
@@ -27,8 +42,8 @@
   box-shadow: var(--divider-shadow);
   background-color: var(--divider-color);
   background-image: var(--divider-image-h);
-  background-repeat: no-repeat;
-  background-position: center;
+  background-repeat: var(--divider-background-repeat);
+  background-position: var(--divider-background-position);
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -40,8 +55,8 @@
   box-shadow: var(--divider-shadow);
   background-color: var(--divider-color);
   background-image: var(--divider-image-v);
-  background-repeat: no-repeat;
-  background-position: center;
+  background-repeat: var(--divider-background-repeat);
+  background-position: var(--divider-background-position);
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -88,5 +103,3 @@
   height: 100%;
   width: 100%;
 }
-
-

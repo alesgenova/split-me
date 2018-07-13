@@ -6,7 +6,7 @@ import throttle from 'lodash.throttle';
 @Component({
   tag: 'split-me',
   styleUrl: 'split-me.css',
-  shadow: true
+  shadow: false
 })
 export class SplitMe {
 
