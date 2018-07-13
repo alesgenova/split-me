@@ -55,9 +55,47 @@ Splitters can be arbitrarily nested into each other to achieve any layout.
 </split-me>
 ```
 
+## Styling
+
+`SplitMe` exposes a few CSS variables that can be overridden in order to adjust the styling of the dividers (gutters) to your liking.
+
+This is the list of variables and their default values:
+
+```css
+split-me {
+  --divider-length: 100%; /* Length of the divider along the principal axis */
+  --divider-thickness: 0.15rem; /* Thickness of the divider */
+  --divider-color: #eeeeee; /* Background color of the divider */
+  --divider-shadow: 0 0 0.3rem black; /* Shadow of the divider */
+  --divider-image-h: none; /* Background image of the divider when d="horizontal" */
+  --divider-image-v: none; /* Background image of the divider when d="vertical" */
+  --divider-background-repeat: no-repeat; /* Repeat rule of the background image */
+  --divider-background-position: center; /* Position of the background image */
+}
+```
+
+Any of these variables can be overridden when using `SplitMe` in your app.
+For example, to make the dividers thicker and change their color to yellow:
+
+```html
+<split-me n="2">
+  <div slot="0" class="fill red"></div>
+  <div slot="1" class="fill green"></div>
+</split-me>
+
+<style>
+  split-me {
+    --divider-thickness: 0.75rem;
+    --divider-color: yellow;
+  }
+</style>
+
+```
+
+
 ## TODO
 
 - ~~Prevent resizing~~
 - ~~Specify initial sizes~~
 - ~~Specify minimum and maximum sizes~~
-- Customizable splitter style
+- ~~Customizable splitter style~~
