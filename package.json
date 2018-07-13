@@ -1,6 +1,6 @@
 {
   "name": "split-me",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Universal web component to create arbitrary split layouts ",
   "module": "dist/esm/index.js",
   "main": "dist/index.js",
@@ -19,7 +19,7 @@
     "lodash.throttle": "^4.1.1"
   },
   "devDependencies": {
-    "@stencil/core": "^0.10.2",
+    "@stencil/core": "^0.10.5",
     "@types/jest": "^23.1.0",
     "@types/lodash.throttle": "^4.1.3",
     "jest": "^23.1.0"
