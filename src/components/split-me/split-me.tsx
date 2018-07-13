@@ -17,6 +17,7 @@ export class SplitMe {
   @Prop() fixed: boolean = false;
   @Prop() sizes: string = '';
   @Prop() minSizes: string = '';
+  @Prop() maxSizes: string = '';
   @Prop() throttle: number = 0;
 
   @State() slotEnd: number[];
@@ -38,6 +39,11 @@ export class SplitMe {
     this.minSizesChanged = true;
   }
 
+  @Watch('maxSizes')
+  watchMaxSizes() {
+    this.maxSizesChanged = true;
+  }
+
   @Watch('throttle')
   watchThrottle(curr: number) {
     this.throttledResize = throttle(this.resize.bind(this), curr);
@@ -46,9 +52,11 @@ export class SplitMe {
   throttledResize: Function & Cancelable;
   
   minSizesArr: number[];
+  maxSizesArr: number[];
   nChanged: boolean = false;
   sizesChanged: boolean = false;
   minSizesChanged: boolean = false;
+  maxSizesChanged: boolean = false;
 
   componentWillLoad() {
     this.throttledResize = throttle(this.resize.bind(this), this.throttle);
@@ -66,6 +74,13 @@ export class SplitMe {
     } else {
       this.minSizesArr = this.defaultMinSizes(this.n);
     }
+    // Validate the maxSize attribute
+    let maxSizes: number[] = this.parseSizes(this.maxSizes);
+    if (maxSizes.length === this.n) {
+      this.maxSizesArr = maxSizes;
+    } else {
+      this.maxSizesArr = this.defaultMaxSizes(this.n);
+    }
   }
 
   componentWillUpdate() {
@@ -79,11 +94,14 @@ export class SplitMe {
     }
 
     if (this.sizesChanged) {
+      // If both sizes and n changed, size takes precedence to resize the splitter
       this.slotEnd = this.assignedSlotEnd(sizes);
+      this.nChanged = false;
+      this.sizesChanged = false;
     } else if (this.nChanged) {
       this.slotEnd = this.rescaleSlotEnd(this.n, this.slotEnd);
+      this.nChanged = false;
     }
-
 
     if (this.minSizesChanged) {
       let minSizes: number[] = this.parseSizes(this.minSizes);
@@ -92,11 +110,18 @@ export class SplitMe {
       } else {
         this.minSizesArr = this.defaultMinSizes(this.n);
       }
+      this.minSizesChanged = false;
     }
 
-    this.nChanged = false;
-    this.sizesChanged = false;
-    this.minSizesChanged = false;
+    if (this.maxSizesChanged) {
+      let maxSizes: number[] = this.parseSizes(this.minSizes);
+      if (maxSizes.length === this.n) {
+        this.maxSizesArr = maxSizes;
+      } else {
+        this.maxSizesArr = this.defaultMaxSizes(this.n);
+      }
+      this.maxSizesChanged = false;
+    }
   }
 
   defaultSlotEnd(n: number) : number[] {
@@ -140,6 +165,14 @@ export class SplitMe {
     return minSizes;
   }
 
+  defaultMaxSizes(n: number) : number[] {
+    let maxSizes: number[] = [];
+    for (let i = 0; i < n; ++i) {
+      maxSizes.push(1);
+    }
+    return maxSizes;
+  }
+
   parseSizes(sizesStr: string) : number[] {
     if (!sizesStr) {
       return [];
@@ -180,18 +213,22 @@ export class SplitMe {
 
   onTouchMove = (event: TouchEvent, i: number) => {
     // Resize on mobile
+    // Avoid scrolling the page
     event.preventDefault();
     if (event.touches.length > 0) {
-      // Avoid scrolling the page
       this.throttledResize(event.touches[0].clientX, event.touches[0].clientY, i);
     }
   }
 
   resize(x: number, y: number, i: number) {
-    let min = i > 0 ? this.slotEnd[i - 1] : 0;
-    min += this.minSizesArr[i];
+    let start = i > 0 ? this.slotEnd[i - 1] : 0;
+    let min = start + this.minSizesArr[i];
+    min = Math.max(min, this.slotEnd[i + 1] - this.maxSizesArr[i + 1]);
+
     let max = i < this.n - 1 ? this.slotEnd[i + 1] : 1;
     max -= this.minSizesArr[i + 1];
+    max = Math.min(max, start + this.maxSizesArr[i]);
+
     let frac: number;
     let rect = this.el.getBoundingClientRect();
     if (this.d === 'vertical') {
@@ -199,6 +236,7 @@ export class SplitMe {
     } else {
       frac = (x - rect.left ) / rect.width;
     }
+
     if (frac > min && frac < max) {
       this.slotEnd = [...this.slotEnd.slice(0, i), frac, ...this.slotEnd.slice(i + 1) ];
       this.slotResized.emit(i);
@@ -217,7 +255,7 @@ export class SplitMe {
     if (!this.slotEnd || this.slotEnd.length === 0) {
       return null;
     }
-
+    
     let slotContainers = [];
     let slotDividers = [];
     let phantomDividers = [];

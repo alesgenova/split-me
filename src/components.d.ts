@@ -32,6 +32,7 @@ declare global {
     interface SplitMe {
       'd': 'horizontal' | 'vertical';
       'fixed': boolean;
+      'maxSizes': string;
       'minSizes': string;
       'n': number;
       'sizes': string;
@@ -60,6 +61,7 @@ declare global {
     export interface SplitMeAttributes extends HTMLAttributes {
       'd'?: 'horizontal' | 'vertical';
       'fixed'?: boolean;
+      'maxSizes'?: string;
       'minSizes'?: string;
       'n'?: number;
       'onSlotResized'?: (event: CustomEvent) => void;

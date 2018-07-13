@@ -27,10 +27,10 @@
 
   <div style="height: 5rem"></div> -->
 
-    <split-me slot="0" d="vertical" id="splitter" n="3" sizes="0.3, 0.3, 0.4" min-sizes="0.2, 0.1, 0.3" throttle=200>
+    <split-me slot="0" d="verticall" id="splitter" n="2" sizes="0.5, 0.5" throttle=0>
       <div slot="0" class="fill" style="background-color: red;"></div>
       <div slot="1" class="fill" style="background-color: green;"></div>
-      <div slot="2" class="fill" style="background-color: blue;"></div>
+      <!-- <div slot="2" class="fill" style="background-color: blue;"></div> -->
     </split-me>
 
 </body>
@@ -50,10 +50,8 @@
   }
 
   split-me {
-    --divider-length: 50%;
-    --divider-color: rgba(0,0,0);
-    --divider-shadow: 0 0 0.3rem black;
-    --divider-thickness: 1rem;
+    --divider-thickness: 0.75rem;
+    --divider-color: yellow;
   }
 </style>
 

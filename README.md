@@ -37,6 +37,7 @@ Use the `split-me` tag anywhere you like. Set the number of slots in the splitte
 - `fixed : boolean` Prevent slots from being resized.
 - `sizes : string` Set the initial size of the slots by passing a comma separated array with percentages or fractions. For example: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
 - `minSizes : string` Set the minimum size of the slots by passing a comma separated array with percentages or fractions.
+- `maxSizes : string` Set the maximum size of the slots by passing a comma separated array with percentages or fractions.
 - `throttle : number` Set the minimum time (in ms) that has to pass between resize events while dragging. Defaults to `0`
 
 ### Events:
