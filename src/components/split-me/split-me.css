@@ -1,17 +1,4 @@
-/* Shadow DOM disabled until supported by Firefox
 :host {
-  --divider-length: 100%;
-  --divider-thickness: 0.15rem;
-  --divider-color: #eeeeee;
-  --divider-shadow: 0 0 0.3rem black;
-  --divider-image-h: none;
-  --divider-image-v: none;
-  --divider-background-repeat: no-repeat;
-  --divider-background-position: center;
-}
-*/
-
-split-me {
   --divider-length: 100%; /* Length of the divider along the principal axis */
   --divider-thickness: 0.15rem; /* Thickness of the divider */
   --divider-color: #eeeeee; /* Background color of the divider */

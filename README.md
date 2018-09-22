@@ -23,9 +23,9 @@ npm install --save split-me
 
 Import `SplitMe` in your `index.js`:
 ```js
-import { defineCustomElements } from 'split-me';
+import * as SplitMe from 'split-me';
 
-defineCustomElements(window);
+SplitMe.defineCustomElements(window);
 ```
 
 ## Basic Usage
@@ -79,7 +79,7 @@ Splitters can be arbitrarily nested into each other to achieve any layout.
 This is the list of variables and their default values:
 
 ```css
-split-me {
+:host {
   --divider-length: 100%; /* Length of the divider along the principal axis */
   --divider-thickness: 0.15rem; /* Thickness of the divider */
   --divider-color: #eeeeee; /* Background color of the divider */
@@ -101,7 +101,7 @@ For example, to make the dividers thicker and change their color to yellow:
 </split-me>
 
 <style>
-  split-me {
+  :root split-me {
     --divider-thickness: 0.75rem;
     --divider-color: yellow;
   }
