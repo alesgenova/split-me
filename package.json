@@ -22,7 +22,10 @@
     "@stencil/core": "^0.12.4",
     "@types/jest": "^23.3.2",
     "@types/lodash.throttle": "^4.1.4",
-    "jest": "^23.6.0"
+    "husky": "^1.0.0-rc.15",
+    "jest": "^23.6.0",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.7.0"
   },
   "repository": {
     "type": "git",
@@ -54,5 +57,10 @@
       "json",
       "jsx"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

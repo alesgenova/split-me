@@ -9,21 +9,21 @@
   --divider-background-position: center; /* Position of the background image */
 }
 
-.divider-h{
+.divider-h {
   height: 100%;
   position: absolute;
   top: 0;
   transform: translateX(-50%);
 }
 
-.divider-v{
+.divider-v {
   width: 100%;
   position: absolute;
   left: 0;
   transform: translateY(-50%);
 }
 
-.display-divider-h{
+.display-divider-h {
   width: var(--divider-thickness);
   height: var(--divider-length);
   box-shadow: var(--divider-shadow);
@@ -36,7 +36,7 @@
   z-index: 1;
 }
 
-.display-divider-v{
+.display-divider-v {
   height: var(--divider-thickness);
   width: var(--divider-length);
   box-shadow: var(--divider-shadow);
@@ -49,14 +49,14 @@
   z-index: 1;
 }
 
-.phantom-divider-h{
+.phantom-divider-h {
   background-color: transparent;
   cursor: col-resize;
   width: 2rem;
   z-index: 2;
 }
 
-.phantom-divider-v{
+.phantom-divider-v {
   background-color: transparent;
   cursor: row-resize;
   height: 2rem;

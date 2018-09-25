@@ -1,4 +1,12 @@
-import { Component, Prop, State, Watch, Element, Event, EventEmitter } from '@stencil/core';
+import {
+  Component,
+  Prop,
+  State,
+  Watch,
+  Element,
+  Event,
+  EventEmitter
+} from '@stencil/core';
 
 import { Cancelable } from 'lodash';
 import throttle from 'lodash.throttle';
@@ -9,20 +17,29 @@ import throttle from 'lodash.throttle';
   shadow: true
 })
 export class SplitMe {
+  @Element()
+  el: HTMLElement;
 
-  @Element() el: HTMLElement;
+  @Prop()
+  n: number = 1;
+  @Prop()
+  d: 'horizontal' | 'vertical';
+  @Prop()
+  fixed: boolean = false;
+  @Prop()
+  sizes: string = '';
+  @Prop()
+  minSizes: string = '';
+  @Prop()
+  maxSizes: string = '';
+  @Prop()
+  throttle: number = 0;
 
-  @Prop() n: number = 1;
-  @Prop() d: 'horizontal' | 'vertical';
-  @Prop() fixed: boolean = false;
-  @Prop() sizes: string = '';
-  @Prop() minSizes: string = '';
-  @Prop() maxSizes: string = '';
-  @Prop() throttle: number = 0;
+  @State()
+  slotEnd: number[];
 
-  @State() slotEnd: number[];
-
-  @Event() slotResized: EventEmitter;
+  @Event()
+  slotResized: EventEmitter;
 
   @Watch('n')
   watchN() {
@@ -50,7 +67,7 @@ export class SplitMe {
   }
 
   throttledResize: Function & Cancelable;
-  
+
   minSizesArr: number[];
   maxSizesArr: number[];
   nChanged: boolean = false;
@@ -124,7 +141,7 @@ export class SplitMe {
     }
   }
 
-  defaultSlotEnd(n: number) : number[] {
+  defaultSlotEnd(n: number): number[] {
     let slotEnd: number[] = [];
     for (let i = 0; i < n; ++i) {
       slotEnd.push((i + 1) / n);
@@ -132,7 +149,7 @@ export class SplitMe {
     return slotEnd;
   }
 
-  assignedSlotEnd(sizes: number[]) : number[] {
+  assignedSlotEnd(sizes: number[]): number[] {
     let slotEnd: number[] = [];
     let currFrac = 0;
     for (let i = 0; i < sizes.length; ++i) {
@@ -157,7 +174,7 @@ export class SplitMe {
     return slotEnd;
   }
 
-  defaultMinSizes(n: number) : number[] {
+  defaultMinSizes(n: number): number[] {
     let minSizes: number[] = [];
     for (let i = 0; i < n; ++i) {
       minSizes.push(0);
@@ -165,7 +182,7 @@ export class SplitMe {
     return minSizes;
   }
 
-  defaultMaxSizes(n: number) : number[] {
+  defaultMaxSizes(n: number): number[] {
     let maxSizes: number[] = [];
     for (let i = 0; i < n; ++i) {
       maxSizes.push(1);
@@ -173,7 +190,7 @@ export class SplitMe {
     return maxSizes;
   }
 
-  parseSizes(sizesStr: string) : number[] {
+  parseSizes(sizesStr: string): number[] {
     if (!sizesStr) {
       return [];
     }
@@ -204,7 +221,7 @@ export class SplitMe {
     event.preventDefault();
     let mouseMoveListener = (e: MouseEvent) => {
       this.throttledResize(e.clientX, e.clientY, i);
-    }
+    };
     window.addEventListener('mousemove', mouseMoveListener);
     window.addEventListener('mouseup', () => {
       window.removeEventListener('mousemove', mouseMoveListener);
@@ -216,9 +233,13 @@ export class SplitMe {
     // Avoid scrolling the page
     event.preventDefault();
     if (event.touches.length > 0) {
-      this.throttledResize(event.touches[0].clientX, event.touches[0].clientY, i);
+      this.throttledResize(
+        event.touches[0].clientX,
+        event.touches[0].clientY,
+        i
+      );
     }
-  }
+  };
 
   resize(x: number, y: number, i: number) {
     let start = i > 0 ? this.slotEnd[i - 1] : 0;
@@ -232,18 +253,22 @@ export class SplitMe {
     let frac: number;
     let rect = this.el.getBoundingClientRect();
     if (this.d === 'vertical') {
-      frac = (y - rect.top ) / rect.height;
+      frac = (y - rect.top) / rect.height;
     } else {
-      frac = (x - rect.left ) / rect.width;
+      frac = (x - rect.left) / rect.width;
     }
 
     if (frac > min && frac < max) {
-      this.slotEnd = [...this.slotEnd.slice(0, i), frac, ...this.slotEnd.slice(i + 1) ];
+      this.slotEnd = [
+        ...this.slotEnd.slice(0, i),
+        frac,
+        ...this.slotEnd.slice(i + 1)
+      ];
       this.slotResized.emit(i);
     }
   }
 
-  getSlotSize(i: number) : number {
+  getSlotSize(i: number): number {
     if (i === 0) {
       return this.slotEnd[i];
     } else {
@@ -255,7 +280,7 @@ export class SplitMe {
     if (!this.slotEnd || this.slotEnd.length === 0) {
       return null;
     }
-    
+
     let slotContainers = [];
     let slotDividers = [];
     let phantomDividers = [];
@@ -266,9 +291,9 @@ export class SplitMe {
       let size: number = this.getSlotSize(i);
       let style;
       if (this.d === 'vertical') {
-        style = {width: '100%', height: `${size * 100}%`};
+        style = { width: '100%', height: `${size * 100}%` };
       } else {
-        style = {width: `${size * 100}%`, height: '100%'};
+        style = { width: `${size * 100}%`, height: '100%' };
       }
       slotContainers.push(
         <div id={containerId} style={style}>
@@ -282,26 +307,28 @@ export class SplitMe {
       let displayClasses: string;
       let phantomClasses: string;
       if (this.d === 'vertical') {
-        style = {top: `${100 * this.slotEnd[i]}%`};
+        style = { top: `${100 * this.slotEnd[i]}%` };
         displayClasses = 'divider-v display-divider-v';
         phantomClasses = 'divider-v phantom-divider-v';
       } else {
-        style = {left: `${100 * this.slotEnd[i]}%`};
+        style = { left: `${100 * this.slotEnd[i]}%` };
         displayClasses = 'divider-h display-divider-h';
         phantomClasses = 'divider-h phantom-divider-h';
       }
-      slotDividers.push(
-        <div class={displayClasses} style={style}>
-        </div>
-      );
+      slotDividers.push(<div class={displayClasses} style={style} />);
       if (!this.fixed) {
         phantomDividers.push(
-          <div class={phantomClasses}
+          <div
+            class={phantomClasses}
             draggable={true}
-            onDragStart={(e) => {this.onDragStart(e, i)}}
-            onTouchMove={(e) => {this.onTouchMove(e, i)}}
-            style={style}>
-          </div>
+            onDragStart={e => {
+              this.onDragStart(e, i);
+            }}
+            onTouchMove={e => {
+              this.onTouchMove(e, i);
+            }}
+            style={style}
+          />
         );
       }
     }
@@ -312,7 +339,11 @@ export class SplitMe {
           {slotDividers}
           {phantomDividers}
         </div>
-        <div class={this.d === 'vertical' ? 'slots-container-v' : 'slots-container-h'} >
+        <div
+          class={
+            this.d === 'vertical' ? 'slots-container-v' : 'slots-container-h'
+          }
+        >
           {slotContainers}
         </div>
       </div>
