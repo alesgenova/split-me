@@ -1,0 +1,13 @@
+build:
+  image: node
+  stage: build
+  script:
+    - npm install --progress=false
+    - npm run build
+
+test:
+  image: node
+  stage: test
+  script:
+    - npm install --progress=false
+    - npm run test
