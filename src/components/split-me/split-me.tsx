@@ -11,6 +11,8 @@ import {
 import { Cancelable } from 'lodash';
 import throttle from 'lodash.throttle';
 
+import { IResizeEvent } from './interfaces';
+
 @Component({
   tag: 'split-me',
   styleUrl: 'split-me.css',
@@ -39,7 +41,7 @@ export class SplitMe {
   slotEnd: number[];
 
   @Event()
-  slotResized: EventEmitter;
+  slotResized: EventEmitter<IResizeEvent>;
 
   @Watch('n')
   watchN() {
@@ -219,13 +221,24 @@ export class SplitMe {
     // Firefox wouldn't allow using drag events for resizing purposes,
     // use this workaround instead.
     event.preventDefault();
-    let mouseMoveListener = (e: MouseEvent) => {
+
+    const mouseMoveListener = (e: MouseEvent) => {
       this.throttledResize(e.clientX, e.clientY, i);
     };
-    window.addEventListener('mousemove', mouseMoveListener);
-    window.addEventListener('mouseup', () => {
+
+    const mouseUpListener = (e: MouseEvent) => {
       window.removeEventListener('mousemove', mouseMoveListener);
-    });
+      window.removeEventListener('mouseup', mouseUpListener);
+      this.slotResized.emit({
+        splitter: this.el,
+        divider: i,
+        sizes: this.slotEndToSizes(this.slotEnd),
+        originalEvent: e
+      });
+    };
+
+    window.addEventListener('mousemove', mouseMoveListener);
+    window.addEventListener('mouseup', mouseUpListener);
   }
 
   onTouchMove = (event: TouchEvent, i: number) => {
@@ -239,6 +252,15 @@ export class SplitMe {
         i
       );
     }
+  };
+
+  onTouchEnd = (event: TouchEvent, i: number) => {
+    this.slotResized.emit({
+      splitter: this.el,
+      divider: i,
+      sizes: this.slotEndToSizes(this.slotEnd),
+      originalEvent: event
+    });
   };
 
   resize(x: number, y: number, i: number) {
@@ -264,15 +286,22 @@ export class SplitMe {
         frac,
         ...this.slotEnd.slice(i + 1)
       ];
-      this.slotResized.emit(i);
     }
   }
 
-  getSlotSize(i: number): number {
+  slotEndToSizes(slotEnd: number[]): number[] {
+    const sizes: number[] = [];
+    for (let i = 0; i < slotEnd.length; ++i) {
+      sizes.push(this.getSlotSize(i, slotEnd));
+    }
+    return sizes;
+  }
+
+  getSlotSize(i: number, slotEnd: number[]): number {
     if (i === 0) {
-      return this.slotEnd[i];
+      return slotEnd[i];
     } else {
-      return this.slotEnd[i] - this.slotEnd[i - 1];
+      return slotEnd[i] - slotEnd[i - 1];
     }
   }
 
@@ -288,7 +317,7 @@ export class SplitMe {
     for (let i = 0; i < this.n; ++i) {
       let containerId = `container${i}`;
       let slotName = `${i}`;
-      let size: number = this.getSlotSize(i);
+      let size: number = this.getSlotSize(i, this.slotEnd);
       let style;
       if (this.d === 'vertical') {
         style = { width: '100%', height: `${size * 100}%` };
@@ -326,6 +355,9 @@ export class SplitMe {
             }}
             onTouchMove={e => {
               this.onTouchMove(e, i);
+            }}
+            onTouchEnd={e => {
+              this.onTouchEnd(e, i);
             }}
             style={style}
           />
