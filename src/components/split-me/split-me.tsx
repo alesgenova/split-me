@@ -197,13 +197,31 @@ export class SplitMe {
       return [];
     }
 
+    // If sizes prop is array
+
     if (Array.isArray(sizesStr)) {
-      if (sizesStr.length == this.n) {
+      if (sizesStr.length === this.n) {
         return sizesStr;
       } else {
         return [];
       }
     }
+
+    // If sizes prop is stringified array
+
+    try {
+      const parsed = JSON.parse(sizesStr);
+      if (Array.isArray(parsed)) {
+        if (parsed.length === this.n) {
+          return parsed;
+        } else {
+          return [];
+        }
+      }
+    } catch (e) {}
+
+    // If sizes prop is freeform string such as
+    // '0.5, 0.25, 0.25' or '50%, 50%'
 
     let sizesStrArr: string[] = sizesStr.split(',');
     if (sizesStrArr.length !== this.n) {

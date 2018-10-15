@@ -5,33 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Split Me</title>
   <script src="/build/split-me.js"></script>
-
 </head>
 <body>
 
-  <!-- <div class="full-container">
-    <split-me n="2" d="vertical">
-      <div style="background-color: red; width: 100%; height: 100%" slot="0"></div>
-      <split-me n="2" slot="1">
-        <div style="background-color: green; width: 100%; height: 100%" slot="0"></div>
-        <split-me n="2" slot="1">
-          <div style="background-color: blue; width: 100%; height: 100%" slot="0"></div>
-          <split-me n="2" slot="1">
-            <div style="background-color: magenta; width: 100%; height: 100%" slot="0"></div>
-            <div style="background-color: red; width: 100%; height: 100%" slot="1"></div>
-          </split-me>
-        </split-me>
-      </split-me>
-    </split-me>
-  </div>
-
-  <div style="height: 5rem"></div> -->
-
-    <split-me slot="0" d="verticall" id="splitter" n="2" sizes="0.5, 0.5" throttle=0>
-      <div slot="0" class="fill" style="background-color: red;"></div>
-      <div slot="1" class="fill" style="background-color: green;"></div>
-      <!-- <div slot="2" class="fill" style="background-color: blue;"></div> -->
-    </split-me>
+  <split-me n="2" id="splitter" sizes="0.5, 0.5" d="horizontal" throttle=0>
+    <div slot="0" class="fill" style="background-color: red;"></div>
+    <div slot="1" class="fill" style="background-color: green;"></div>
+    <!-- <div slot="2" class="fill" style="background-color: blue;"></div> -->
+  </split-me>
 
 </body>
 <style>
@@ -56,17 +37,29 @@
 </style>
 
 <script>
-  let splitter = document.getElementById("splitter");
-  splitter.addEventListener('slotResized', (e) => {
-    console.log(e);
+  document.addEventListener('DOMContentLoaded', () => {
+    let splitter = document.getElementById("splitter");
+
+    splitter.addEventListener('slotResized', (e) => {
+      const { sizes, divider, originalEvent } = event.detail;
+      localStorage.setItem('split-sizes', sizes);
+    });
+
+    setTimeout(()=>{
+      splitter.sizes = localStorage.getItem('split-sizes');
+    }, 50);
+
+    setTimeout(()=>{
+      splitter.sizes = '0.75, 0.25';
+    }, 2000);
+
+    setTimeout(()=>{
+      splitter.sizes = [0.25, 0.75];
+    }, 4000);
+
+    setTimeout(()=>{
+      splitter.sizes = '[0.5, 0.5]';
+    }, 6000);
   });
-  let i = 0;
-  let n = 0;
-  setTimeout(()=>{
-    splitter.sizes = "0.75, 0.25";
-  }, 2000);
-  setTimeout(()=>{
-    splitter.sizes = [0.25, 0.75];
-  }, 4000);
 </script>
 </html>
