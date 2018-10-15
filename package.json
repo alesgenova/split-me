@@ -13,6 +13,8 @@
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
+    "test.spec": "stencil test --spec",
+    "test.e2e": "stencil test --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "prepublishOnly": "rm -rf .stencil/ dist/ www/ && npm install && npm run build"
   },
