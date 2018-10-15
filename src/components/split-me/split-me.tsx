@@ -230,7 +230,6 @@ export class SplitMe {
       window.removeEventListener('mousemove', mouseMoveListener);
       window.removeEventListener('mouseup', mouseUpListener);
       this.slotResized.emit({
-        splitter: this.el,
         divider: i,
         sizes: this.slotEndToSizes(this.slotEnd),
         originalEvent: e
@@ -256,7 +255,6 @@ export class SplitMe {
 
   onTouchEnd = (event: TouchEvent, i: number) => {
     this.slotResized.emit({
-      splitter: this.el,
       divider: i,
       sizes: this.slotEndToSizes(this.slotEnd),
       originalEvent: event
