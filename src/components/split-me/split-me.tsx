@@ -29,11 +29,11 @@ export class SplitMe {
   @Prop()
   fixed: boolean = false;
   @Prop()
-  sizes: string = '';
+  sizes: string | number[] = '';
   @Prop()
-  minSizes: string = '';
+  minSizes: string | number[] = '';
   @Prop()
-  maxSizes: string = '';
+  maxSizes: string | number[] = '';
   @Prop()
   throttle: number = 0;
 
@@ -192,10 +192,19 @@ export class SplitMe {
     return maxSizes;
   }
 
-  parseSizes(sizesStr: string): number[] {
+  parseSizes(sizesStr: string | number[]): number[] {
     if (!sizesStr) {
       return [];
     }
+
+    if (Array.isArray(sizesStr)) {
+      if (sizesStr.length == this.n) {
+        return sizesStr;
+      } else {
+        return [];
+      }
+    }
+
     let sizesStrArr: string[] = sizesStr.split(',');
     if (sizesStrArr.length !== this.n) {
       return [];

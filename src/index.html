@@ -62,8 +62,11 @@
   });
   let i = 0;
   let n = 0;
-  let interval = setTimeout(()=>{
-    splitter.throttle = 0;
+  setTimeout(()=>{
+    splitter.sizes = "0.75, 0.25";
+  }, 2000);
+  setTimeout(()=>{
+    splitter.sizes = [0.25, 0.75];
   }, 4000);
 </script>
 </html>
