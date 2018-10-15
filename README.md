@@ -8,6 +8,8 @@
 
 See a [Live Demo](https://alesgenova.github.io/split-me/).
 
+[![demo](./demo.png)](https://alesgenova.github.io/split-me/)
+
 ## Installing
 
 ### Option 1 (HTML)
