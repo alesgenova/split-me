@@ -52,6 +52,19 @@ Use the `split-me` tag anywhere you like. Set the number of slots in the splitte
 </style>
 ```
 
+Splitters can be arbitrarily nested into each other to achieve any layout.
+
+```html
+<split-me n="3" sizes="0.3, 0.3, 0.4" min-sizes="0.2, 0.0, 0.0">
+  <div slot="0" class="fill red"></div>
+  <div slot="1" class="fill green"></div>
+  <split-me slot="2" n="2" d="vertical" fixed>
+      <div slot="0" class="fill blue"></div>
+      <div slot="1" class="fill magenta"></div>
+  </split-me>
+</split-me>
+```
+
 ## Advanced Usage
 
 ### Attributes:
@@ -68,17 +81,36 @@ Use the `split-me` tag anywhere you like. Set the number of slots in the splitte
 
 - `slotResized` Fired every time a slot has been resized.
 
-Splitters can be arbitrarily nested into each other to achieve any layout.
+```typescript
+interface IResizeEvent {
+  sizes: number[]; // [0.25, 0.75]
+  divider: number; // internal divider index
+  originalEvent: MouseEvent | TouchEvent; // event of triggered drag
+}
+```
 
-```html
-<split-me n="3" sizes="0.3, 0.3, 0.4" min-sizes="0.2, 0.0, 0.0">
-  <div slot="0" class="fill red"></div>
-  <div slot="1" class="fill green"></div>
-  <split-me slot="2" n="2" d="vertical" fixed>
-      <div slot="0" class="fill blue"></div>
-      <div slot="1" class="fill magenta"></div>
-  </split-me>
-</split-me>
+#### Saving State
+
+```javascript
+function handle(event) {
+  // extrapolate details
+  const { sizes, divider, originalEvent } = event.detail;
+  const sourceElement = event.target;
+
+  console.log(sourceElement, originalEvent);
+  console.dir({ divider, sizes });
+
+  // store state
+  localStorage.setItem('split-sizes', sizes);
+}
+
+const el = document.querySelector('split-me');
+
+// loads sizes, but only if they have not been set yet.
+el.sizes = el.sizes || localStorage.getItem('split-sizes');
+
+// listen on changes
+el.addEventListener('slotResized', handle);
 ```
 
 ## Styling
