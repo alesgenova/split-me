@@ -57,7 +57,9 @@
 
 <script>
   let splitter = document.getElementById("splitter");
-  splitter.addEventListener('slotResized', (e) => {});
+  splitter.addEventListener('slotResized', (e) => {
+    console.log(e);
+  });
   let i = 0;
   let n = 0;
   let interval = setTimeout(()=>{
