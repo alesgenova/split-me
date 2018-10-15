@@ -1,13 +1,13 @@
 build:
-  image: node
+  image: node:latest
   stage: build
   script:
     - npm install --progress=false
     - npm run build
 
 test:
-  image: node
+  image: node:latest
   stage: test
   script:
     - npm install --progress=false
-    - npm run test
+    - npm run test.spec
