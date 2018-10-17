@@ -250,17 +250,12 @@ export class SplitMe {
     event.preventDefault();
 
     const mouseMoveListener = (e: MouseEvent) => {
-      this.throttledResize(e.clientX, e.clientY, i);
+      this.throttledResize(e.clientX, e.clientY, i, e);
     };
 
-    const mouseUpListener = (e: MouseEvent) => {
+    const mouseUpListener = () => {
       window.removeEventListener('mousemove', mouseMoveListener);
       window.removeEventListener('mouseup', mouseUpListener);
-      this.slotResized.emit({
-        divider: i,
-        sizes: this.slotEndToSizes(this.slotEnd),
-        originalEvent: e
-      });
     };
 
     window.addEventListener('mousemove', mouseMoveListener);
@@ -275,20 +270,13 @@ export class SplitMe {
       this.throttledResize(
         event.touches[0].clientX,
         event.touches[0].clientY,
-        i
+        i,
+        event
       );
     }
   };
 
-  onTouchEnd = (event: TouchEvent, i: number) => {
-    this.slotResized.emit({
-      divider: i,
-      sizes: this.slotEndToSizes(this.slotEnd),
-      originalEvent: event
-    });
-  };
-
-  resize(x: number, y: number, i: number) {
+  resize(x: number, y: number, i: number, e: MouseEvent | TouchEvent) {
     let start = i > 0 ? this.slotEnd[i - 1] : 0;
     let min = start + this.minSizesArr[i];
     min = Math.max(min, this.slotEnd[i + 1] - this.maxSizesArr[i + 1]);
@@ -311,6 +299,11 @@ export class SplitMe {
         frac,
         ...this.slotEnd.slice(i + 1)
       ];
+      this.slotResized.emit({
+        divider: i,
+        sizes: this.slotEndToSizes(this.slotEnd),
+        originalEvent: e
+      });
     }
   }
 
@@ -380,9 +373,6 @@ export class SplitMe {
             }}
             onTouchMove={e => {
               this.onTouchMove(e, i);
-            }}
-            onTouchEnd={e => {
-              this.onTouchEnd(e, i);
             }}
             style={style}
           />
