@@ -14,7 +14,7 @@ See a [Live Demo](https://alesgenova.github.io/split-me/).
 <custom-element-demo>
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="https://unpkg.com/split-me/dist/split-me.js"></script>
+    <script src="https://unpkg.com/@resize/split-me/dist/split-me.js"></script>
     <style is="custom-style">
       .container {
         width: 100%;
@@ -52,7 +52,7 @@ See a [Live Demo](https://alesgenova.github.io/split-me/).
 ```
 -->
 
-[![demo](./demo.png)](https://alesgenova.github.io/split-me/)
+[![demo](./demo.gif)](https://alesgenova.github.io/split-me/)
 
 ## Installing
 
@@ -61,7 +61,7 @@ See a [Live Demo](https://alesgenova.github.io/split-me/).
 Add the `SplitMe` script tag to your `index.html`:
 
 ```
-<script src="https://unpkg.com/split-me/dist/split-me.js"></script>
+<script src="https://unpkg.com/@resize/split-me/dist/split-me.js"></script>
 ```
 
 ### Option 2 (React / Angular / Vue)
@@ -69,15 +69,15 @@ Add the `SplitMe` script tag to your `index.html`:
 Add `SplitMe` to your project:
 
 ```
-npm install --save split-me
+npm install --save @resize/split-me
 ```
 
 Import `SplitMe` in your `index.js`:
 
 ```js
-import * as SplitMe from 'split-me';
+import { defineCustomElements as defineSplitMe } from '@resize/split-me/dist/loader';
 
-SplitMe.defineCustomElements(window);
+defineSplitMe(window);
 ```
 
 ## Basic Usage
