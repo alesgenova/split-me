@@ -8,10 +8,10 @@
 </head>
 <body>
 
-  <split-me n="2" id="splitter" sizes="0.5, 0.5" d="horizontal" throttle=0>
+  <split-me n="3" id="splitter" sizes="0.5, 0.5" d="horizontal" throttle=0>
     <div slot="0" class="fill" style="background-color: red;"></div>
     <div slot="1" class="fill" style="background-color: green;"></div>
-    <!-- <div slot="2" class="fill" style="background-color: blue;"></div> -->
+    <div slot="2" class="fill" style="background-color: blue;"></div>
   </split-me>
 
 </body>
@@ -46,19 +46,19 @@
     });
 
     setTimeout(()=>{
-      splitter.sizes = localStorage.getItem('split-sizes');
+      // splitter.sizes = localStorage.getItem('split-sizes');
     }, 50);
 
     setTimeout(()=>{
-      splitter.sizes = '0.75, 0.25';
+      // splitter.sizes = '0.75, 0.25';
     }, 2000);
 
     setTimeout(()=>{
-      splitter.sizes = [0.25, 0.75];
+      // splitter.sizes = [0.25, 0.75];
     }, 4000);
 
     setTimeout(()=>{
-      splitter.sizes = '[0.5, 0.5]';
+      // splitter.sizes = '[0.5, 0.5]';
     }, 6000);
   });
 </script>

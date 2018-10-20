@@ -293,7 +293,22 @@ export class SplitMe {
       frac = (x - rect.left) / rect.width;
     }
 
-    if (frac > min && frac < max) {
+    let doResize: boolean = false;
+    if (frac < min) {
+      if (this.slotEnd[i] > min) {
+        frac = min;
+        doResize = true;
+      }
+    } else if (frac > max) {
+      if (this.slotEnd[i] < max) {
+        frac = max;
+        doResize = true;
+      }
+    } else {
+      doResize = true;
+    }
+
+    if (doResize) {
       this.slotEnd = [
         ...this.slotEnd.slice(0, i),
         frac,
