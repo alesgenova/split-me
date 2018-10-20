@@ -4,41 +4,95 @@
  * It contains typing information for all components that exist in this project.
  */
 
+
 import '@stencil/core';
 
-import { EventEmitter } from '@stencil/core';
-import { IResizeEvent } from './components/split-me/interfaces';
+
+import {
+  EventEmitter,
+} from '@stencil/core';
+import {
+  IResizeEvent,
+} from './components/split-me/interfaces';
+
 
 export namespace Components {
+
   interface SplitMe {
-    d: 'horizontal' | 'vertical';
-    fixed: boolean;
-    maxSizes: string | number[];
-    minSizes: string | number[];
-    n: number;
-    sizes: string | number[];
-    throttle: number;
+    /**
+    * The direction of the splitter.
+    */
+    'd': 'horizontal' | 'vertical';
+    /**
+    * Prevent the splitter from being resized.
+    */
+    'fixed': boolean;
+    /**
+    * The maximum sizes of the slots. Same format as `sizes`
+    */
+    'maxSizes': string | number[];
+    /**
+    * The minimum sizes of the slots. Same format as `sizes`
+    */
+    'minSizes': string | number[];
+    /**
+    * The number of slots in the splitter.
+    */
+    'n': number;
+    /**
+    * The initial sizes of the slots. Acceptable formats are: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
+    */
+    'sizes': string | number[];
+    /**
+    * The minimum time (in ms) between resize events while dragging.
+    */
+    'throttle': number;
   }
   interface SplitMeAttributes extends StencilHTMLAttributes {
-    d?: 'horizontal' | 'vertical';
-    fixed?: boolean;
-    maxSizes?: string | number[];
-    minSizes?: string | number[];
-    n?: number;
-    onSlotResized?: (event: CustomEvent<IResizeEvent>) => void;
-    sizes?: string | number[];
-    throttle?: number;
+    /**
+    * The direction of the splitter.
+    */
+    'd'?: 'horizontal' | 'vertical';
+    /**
+    * Prevent the splitter from being resized.
+    */
+    'fixed'?: boolean;
+    /**
+    * The maximum sizes of the slots. Same format as `sizes`
+    */
+    'maxSizes'?: string | number[];
+    /**
+    * The minimum sizes of the slots. Same format as `sizes`
+    */
+    'minSizes'?: string | number[];
+    /**
+    * The number of slots in the splitter.
+    */
+    'n'?: number;
+    /**
+    * Emitted every time dragging causes the slots to resize
+    */
+    'onSlotResized'?: (event: CustomEvent<IResizeEvent>) => void;
+    /**
+    * The initial sizes of the slots. Acceptable formats are: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
+    */
+    'sizes'?: string | number[];
+    /**
+    * The minimum time (in ms) between resize events while dragging.
+    */
+    'throttle'?: number;
   }
 }
 
 declare global {
   interface StencilElementInterfaces {
-    SplitMe: Components.SplitMe;
+    'SplitMe': Components.SplitMe;
   }
 
   interface StencilIntrinsicElements {
     'split-me': Components.SplitMeAttributes;
   }
+
 
   interface HTMLSplitMeElement extends Components.SplitMe, HTMLStencilElement {}
   var HTMLSplitMeElement: {
@@ -47,12 +101,13 @@ declare global {
   };
 
   interface HTMLElementTagNameMap {
-    'split-me': HTMLSplitMeElement;
+    'split-me': HTMLSplitMeElement
   }
 
   interface ElementTagNameMap {
     'split-me': HTMLSplitMeElement;
   }
+
 
   export namespace JSX {
     export interface Element {}
@@ -61,4 +116,5 @@ declare global {
     }
   }
   export interface HTMLAttributes extends StencilHTMLAttributes {}
+
 }

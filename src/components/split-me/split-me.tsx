@@ -22,24 +22,57 @@ export class SplitMe {
   @Element()
   el: HTMLElement;
 
+  /**
+   * The number of slots in the splitter.
+   */
   @Prop()
   n: number = 1;
+
+  /**
+   * The direction of the splitter.
+   */
   @Prop()
-  d: 'horizontal' | 'vertical';
+  d: 'horizontal' | 'vertical' = 'horizontal';
+
+  /**
+   * Prevent the splitter from being resized.
+   */
   @Prop()
   fixed: boolean = false;
+
+  /**
+   * The initial sizes of the slots.
+   * Acceptable formats are: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"`
+   */
   @Prop()
   sizes: string | number[] = '';
+
+  /**
+   * The minimum sizes of the slots.
+   * Same format as `sizes`
+   */
   @Prop()
   minSizes: string | number[] = '';
+
+  /**
+   * The maximum sizes of the slots.
+   * Same format as `sizes`
+   */
   @Prop()
   maxSizes: string | number[] = '';
+
+  /**
+   * The minimum time (in ms) between resize events while dragging.
+   */
   @Prop()
   throttle: number = 0;
 
   @State()
   slotEnd: number[];
 
+  /**
+   * Emitted every time dragging causes the slots to resize
+   */
   @Event()
   slotResized: EventEmitter<IResizeEvent>;
 
