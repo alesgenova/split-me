@@ -1,6 +1,6 @@
 {
-  "name": "split-me",
-  "version": "1.1.3",
+  "name": "@resize/split-me",
+  "version": "1.1.4",
   "description": "Universal web component to create arbitrary split layouts ",
   "module": "dist/esm/index.js",
   "main": "dist/index.js",
@@ -55,5 +55,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
