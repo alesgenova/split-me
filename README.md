@@ -115,8 +115,8 @@ Splitters can be arbitrarily nested into each other to achieve any layout.
   <div slot="0" class="fill red"></div>
   <div slot="1" class="fill green"></div>
   <split-me slot="2" n="2" d="vertical" fixed>
-      <div slot="0" class="fill blue"></div>
-      <div slot="1" class="fill magenta"></div>
+    <div slot="0" class="fill blue"></div>
+    <div slot="1" class="fill magenta"></div>
   </split-me>
 </split-me>
 ```
@@ -125,15 +125,15 @@ Splitters can be arbitrarily nested into each other to achieve any layout.
 
 ### Properties
 
-| Property   | Attribute   | Description                                                                                             | Type                        |
-| ---------- | ----------- | ------------------------------------------------------------------------------------------------------- | --------------------------- |
-| `d`        | `d`         | The direction of the splitter.                                                                          | `"horizontal" | "vertical"` |
-| `fixed`    | `fixed`     | Prevent the splitter from being resized.                                                                | `boolean`                   |
-| `maxSizes` | `max-sizes` | The maximum sizes of the slots. Same format as `sizes`                                                  | `number[] \| string`        |
-| `minSizes` | `min-sizes` | The minimum sizes of the slots. Same format as `sizes`                                                  | `number[] \| string`        |
-| `n`        | `n`         | The number of slots in the splitter.                                                                    | `number`                    |
-| `sizes`    | `sizes`     | The initial sizes of the slots. Acceptable formats are: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"` | `number[] \| string`        |
-| `throttle` | `throttle`  | The minimum time (in ms) between resize events while dragging.                                          | `number`                    |
+| Property   | Attribute   | Description                                                                                             | Type                         |
+| ---------- | ----------- | ------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| `d`        | `d`         | The direction of the splitter.                                                                          | `"horizontal" \| "vertical"` |
+| `fixed`    | `fixed`     | Prevent the splitter from being resized.                                                                | `boolean`                    |
+| `maxSizes` | `max-sizes` | The maximum sizes of the slots. Same format as `sizes`                                                  | `number[] \| string`         |
+| `minSizes` | `min-sizes` | The minimum sizes of the slots. Same format as `sizes`                                                  | `number[] \| string`         |
+| `n`        | `n`         | The number of slots in the splitter.                                                                    | `number`                     |
+| `sizes`    | `sizes`     | The initial sizes of the slots. Acceptable formats are: `sizes="0.33, 0.67"` or `sizes="50%, 25%, 25%"` | `number[] \| string`         |
+| `throttle` | `throttle`  | The minimum time (in ms) between resize events while dragging.                                          | `number`                     |
 
 ### Events
 
