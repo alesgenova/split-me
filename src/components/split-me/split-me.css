@@ -7,6 +7,7 @@
   --divider-image-v: none; /* Background image of the divider when d="vertical" */
   --divider-background-repeat: no-repeat; /* Repeat rule of the background image */
   --divider-background-position: center; /* Position of the background image */
+  --phantom-divider-thickness: 2rem; /* Thickness of the phantom divider used to grab mouse events */
 }
 
 .divider-h {
@@ -52,14 +53,20 @@
 .phantom-divider-h {
   background-color: transparent;
   cursor: col-resize;
-  width: 2rem;
+  width: var(--phantom-divider-thickness);
+  height: var(--divider-length);
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2;
 }
 
 .phantom-divider-v {
   background-color: transparent;
   cursor: row-resize;
-  height: 2rem;
+  height: var(--phantom-divider-thickness);
+  width: var(--divider-length);
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2;
 }
 
