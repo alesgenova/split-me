@@ -189,6 +189,7 @@ This is the list of variables and their default values:
   --divider-image-v: none; /* Background image of the divider when d="vertical" */
   --divider-background-repeat: no-repeat; /* Repeat rule of the background image */
   --divider-background-position: center; /* Position of the background image */
+  --phantom-divider-thickness: 2rem; /* Thickness of the phantom divider used to grab mouse events */
 }
 ```
 
