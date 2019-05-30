@@ -5,7 +5,8 @@ import {
   Watch,
   Element,
   Event,
-  EventEmitter
+  EventEmitter,
+  h
 } from '@stencil/core';
 
 import { Cancelable } from 'lodash';
