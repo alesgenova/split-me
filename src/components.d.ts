@@ -5,19 +5,12 @@
  */
 
 
-import '@stencil/core';
-
-
-import {
-  EventEmitter,
-} from '@stencil/core';
+import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   IResizeEvent,
 } from './components/split-me/interfaces';
 
-
 export namespace Components {
-
   interface SplitMe {
     /**
     * The direction of the splitter.
@@ -48,7 +41,23 @@ export namespace Components {
     */
     'throttle': number;
   }
-  interface SplitMeAttributes extends StencilHTMLAttributes {
+}
+
+declare global {
+
+
+  interface HTMLSplitMeElement extends Components.SplitMe, HTMLStencilElement {}
+  var HTMLSplitMeElement: {
+    prototype: HTMLSplitMeElement;
+    new (): HTMLSplitMeElement;
+  };
+  interface HTMLElementTagNameMap {
+    'split-me': HTMLSplitMeElement;
+  }
+}
+
+declare namespace LocalJSX {
+  interface SplitMe extends JSXBase.HTMLAttributes<HTMLSplitMeElement> {
     /**
     * The direction of the splitter.
     */
@@ -82,39 +91,19 @@ export namespace Components {
     */
     'throttle'?: number;
   }
+
+  interface IntrinsicElements {
+    'split-me': SplitMe;
+  }
 }
 
-declare global {
-  interface StencilElementInterfaces {
-    'SplitMe': Components.SplitMe;
-  }
-
-  interface StencilIntrinsicElements {
-    'split-me': Components.SplitMeAttributes;
-  }
+export { LocalJSX as JSX };
 
 
-  interface HTMLSplitMeElement extends Components.SplitMe, HTMLStencilElement {}
-  var HTMLSplitMeElement: {
-    prototype: HTMLSplitMeElement;
-    new (): HTMLSplitMeElement;
-  };
-
-  interface HTMLElementTagNameMap {
-    'split-me': HTMLSplitMeElement
-  }
-
-  interface ElementTagNameMap {
-    'split-me': HTMLSplitMeElement;
-  }
-
-
+declare module "@stencil/core" {
   export namespace JSX {
-    export interface Element {}
-    export interface IntrinsicElements extends StencilIntrinsicElements {
-      [tagName: string]: any;
-    }
+    interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
   }
-  export interface HTMLAttributes extends StencilHTMLAttributes {}
-
 }
+
+

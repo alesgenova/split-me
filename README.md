@@ -85,7 +85,7 @@ npm install --save split-me
 Import `SplitMe` in your `index.js`:
 
 ```js
-import { defineCustomElements as defineSplitMe } from 'split-me/dist/loader';
+import { defineCustomElements as defineSplitMe } from 'split-me/loader';
 
 defineSplitMe(window);
 ```

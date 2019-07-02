@@ -7,7 +7,8 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
     />
     <title>Split Me</title>
-    <script src="/build/split-me.js"></script>
+    <script type="module" src="/build/split-me.esm.js"></script>
+    <script nomodule src="/build/split-me.js"></script>
   </head>
   <body>
     <split-me n="3" id="splitter" sizes="0.5, 0.5" d="horizontal" throttle="0">
