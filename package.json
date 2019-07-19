@@ -1,12 +1,12 @@
 {
   "name": "split-me",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Universal web component to create arbitrary split layouts ",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "files": [
@@ -20,7 +20,7 @@
     "test.spec": "stencil test --spec",
     "test.e2e": "stencil test --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "prepublishOnly": "rm -rf .stencil/ dist/ www/ && npm install && npm run build && npm run build"
+    "prepublishOnly": "rm -rf .stencil/ dist/ www/ && npm install && npm run build"
   },
   "dependencies": {
     "lodash.throttle": "^4.1.1"
