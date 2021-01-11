@@ -6,10 +6,9 @@ import {
   Element,
   Event,
   EventEmitter,
-  h
+  h,
 } from '@stencil/core';
 
-import { Cancelable } from 'lodash';
 import throttle from 'lodash.throttle';
 
 import { IResizeEvent } from './interfaces';
@@ -17,7 +16,7 @@ import { IResizeEvent } from './interfaces';
 @Component({
   tag: 'split-me',
   styleUrl: 'split-me.css',
-  shadow: true
+  shadow: true,
 })
 export class SplitMe {
   @Element()
@@ -102,7 +101,7 @@ export class SplitMe {
     this.throttledResize = throttle(this.resize.bind(this), curr);
   }
 
-  throttledResize: Function & Cancelable;
+  throttledResize: Function;
 
   minSizesArr: number[];
   maxSizesArr: number[];
@@ -346,12 +345,12 @@ export class SplitMe {
       this.slotEnd = [
         ...this.slotEnd.slice(0, i),
         frac,
-        ...this.slotEnd.slice(i + 1)
+        ...this.slotEnd.slice(i + 1),
       ];
       this.slotResized.emit({
         divider: i,
         sizes: this.slotEndToSizes(this.slotEnd),
-        originalEvent: e
+        originalEvent: e,
       });
     }
   }
@@ -417,10 +416,10 @@ export class SplitMe {
           <div
             class={phantomClasses}
             draggable={true}
-            onDragStart={e => {
+            onDragStart={(e) => {
               this.onDragStart(e, i);
             }}
-            onTouchMove={e => {
+            onTouchMove={(e) => {
               this.onTouchMove(e, i);
             }}
             style={style}
