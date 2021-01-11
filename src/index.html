@@ -10,11 +10,18 @@
     <script type="module" src="/build/split-me.esm.js"></script>
     <script nomodule src="/build/split-me.js"></script>
   </head>
+
   <body>
-    <split-me n="3" id="splitter" sizes="0.5, 0.5" d="horizontal" throttle="0">
-      <div slot="0" class="fill" style="background-color: red;"></div>
-      <div slot="1" class="fill" style="background-color: green;"></div>
-      <div slot="2" class="fill" style="background-color: blue;"></div>
+    <split-me
+      n="3"
+      id="splitter"
+      sizes="0.33, 0.33, 0.5"
+      d="horizontal"
+      throttle="0"
+    >
+      <div slot="0" class="fill" style="background-color: red"></div>
+      <div slot="1" class="fill" style="background-color: green"></div>
+      <div slot="2" class="fill" style="background-color: blue"></div>
     </split-me>
   </body>
   <style>
@@ -22,6 +29,7 @@
     body {
       height: 98%;
     }
+
     .full-container {
       /* height: 100%; */
       height: 30rem;
@@ -45,7 +53,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       let splitter = document.getElementById('splitter');
 
-      splitter.addEventListener('slotResized', e => {
+      splitter.addEventListener('slotResized', (e) => {
         const { sizes, divider, originalEvent } = event.detail;
         localStorage.setItem('split-sizes', sizes);
       });
