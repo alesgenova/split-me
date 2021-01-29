@@ -166,7 +166,7 @@ export class SplitMe {
     }
 
     if (this.maxSizesChanged) {
-      let maxSizes: number[] = this.parseSizes(this.minSizes);
+      let maxSizes: number[] = this.parseSizes(this.maxSizes);
       if (maxSizes.length === this.n) {
         this.maxSizesArr = maxSizes;
       } else {
